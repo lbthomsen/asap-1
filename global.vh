@@ -4,6 +4,8 @@ parameter FALSE =  1'b0;
 parameter ONE   =  1'b1;
 parameter TRUE  =  1'b1;
 
+// Control signals
+
 parameter CONTROL_SIGNALS = 16;
 
 parameter PCI   =  0; // Program counter in
@@ -21,3 +23,31 @@ parameter OI    = 11; // Operand register in
 parameter ALO   = 12; // ALU out
 parameter ALS   = 13; // ALU subtract
 parameter OUI   = 14; // Out register in
+
+// Instructions
+
+parameter NOP   =  0; // No operation
+parameter LDA   =  1; // Load A from memory address
+parameter ADD   =  2; // Add value from address to A 
+parameter SUB   =  3; // Subtract value from address from A
+parameter STA   =  4; // Store A to address
+parameter LDI   =  5; // Load value into A
+parameter JMP   =  6; // Jump to address
+parameter OUT   =  7; // A to out
+
+// Microcode
+//
+// Since regular verilog does not support parameter arrays, this is one long vector
+
+/* parameter [4 * 10 * (CONTROL_SIGNALS - 1):0] MC = {
+    // NOP
+    16'd0, 
+    16'd0, 
+    16'd0, 
+    16'd0, 
+    // LDA
+    16'($pow(2, MO) + $pow(2, MAI)), // Copy the value to the memory address register
+    16'($pow(2, MO) + $pow(2, AI)), 
+    16'd0, 
+    16'd0
+}; */

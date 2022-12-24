@@ -10,6 +10,8 @@ module memory_module (
 
 );
 
+    `include "global.vh"
+
     reg [7:0] data[0:255];
     integer i;
 
@@ -19,6 +21,22 @@ module memory_module (
         for (i = 0; i <= 255; i = i + 1) begin
             data[i] = i; // All NOP
         end
+
+        data[0] = LDI;
+        data[1] = 8'd1;
+
+        data[2] = STA;
+        data[3] = 255;
+
+        data[4] = ADD;
+        data[5] = 255;
+
+        data[6] = OUT;
+        data[7] = 0;
+
+        data[8] = JMP;
+        data[9] = 4;
+
     end
 
     always @ (negedge clk) begin
