@@ -87,6 +87,7 @@ module asap1_tb();
     );
 
     alu_module alu (
+        .clk(clk_sim), 
         .oe(ctrl[ALO]), 
         .sub(als), 
         .a(da), 

@@ -18,7 +18,9 @@ module memory_module (
     assign bus = (oe == 1'b1) ? data[address] : 'bzzzzzzzz;
 
     initial begin 
-        for (i = 0; i <= 255; i = i + 1) begin
+        $readmemh("counter1.bin", data);
+
+/*         for (i = 0; i <= 255; i = i + 1) begin
             data[i] = i; // All NOP
         end
 
@@ -36,7 +38,7 @@ module memory_module (
 
         data[8] = JMP;
         data[9] = 4;
-
+ */
     end
 
     always @ (negedge clk) begin
