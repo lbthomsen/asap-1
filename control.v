@@ -34,7 +34,7 @@ module control_module (
         MICROCODE[ADD][0] <= $pow(2, MO) + $pow(2, MAI); // Memory out (operand is in memory address register) memory address in
         MICROCODE[ADD][1] <= $pow(2, MO) + $pow(2, BI);  // Memory out B in
         MICROCODE[ADD][2] <= $pow(2, ALO) + $pow(2, AI); // ALU out A in
-        MICROCODE[LDA][3] <= 16'd0;
+        MICROCODE[ADD][3] <= 16'd0;
 
         // SUB
         MICROCODE[SUB][0] <= $pow(2, MO) + $pow(2, MAI); // Memory out (operand is in memory address register) memory address in

@@ -3,7 +3,7 @@
 05 00 // 04 05 - LDI 00 - Load a 0 into A
 07 00 // 06 07 - OUT    - Copy A to OUT
 02 ff // 08 09 - ADD ff - Add value from FF to A
-06 07 // 0a 0b - JMP 07 - Jump to 07
+06 06 // 0a 0b - JMP 06 - Jump to 06
 00 00 // 0c 0d
 00 00 // 0e 0f
 00 00 // 10 11
