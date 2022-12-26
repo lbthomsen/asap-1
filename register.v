@@ -1,25 +1,21 @@
-// A single 8 bit register
+// Wrapper around register_counter_module
 module register_module (
     input               rst, 
     input               clk, 
     input               ie, 
     input               oe, 
-    output  reg [7:0]   data, 
+    output      [7:0]   data, 
     inout       [7:0]   bus
 );
 
-    assign bus = (oe == 1'b1) ? data : 'bzzzzzzzz;
-
-    always @ (negedge clk) begin
-
-        if (rst == 1'b1) begin
-            data = 8'd0;
-        end else begin
-            if (ie == 1'b1) begin
-                 data = bus;
-            end
-        end
-
-    end
+    register_counter_module register1 (
+        .rst(rst), 
+        .clk(clk), 
+        .ie(ie), 
+        .oe(oe), 
+        .step(1'b0),
+        .data(data),  
+        .bus(bus)
+    );
 
 endmodule

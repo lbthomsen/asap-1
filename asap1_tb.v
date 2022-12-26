@@ -6,11 +6,12 @@ module asap1_tb();
     `include "global.vh"
 
     wire    [7:0]                       bus;
+    wire    [7:0]                       pc;
     wire    [7:0]                       da;
     wire    [7:0]                       db;
     wire    [7:0]                       ireg;
-    wire    [7:0]                       oreg;
     wire    [7:0]                       addr;
+    wire    [7:0]                       out;
     wire    [CONTROL_SIGNALS - 1:0]     ctrl;
 
     wire zf;
@@ -19,12 +20,12 @@ module asap1_tb();
     reg clk_sim = 1;
 
     // Simulation time: 10000 * 1 ns = 10 us
-    localparam DURATION = 1000000;
+    localparam DURATION = 100000;
 
     //assign bus = (force_bus == 1) ? write_bus : 8'bzzzzzzzz;
 
     always begin
-        #500
+        #5
         clk_sim = ~clk_sim;
     end
 
@@ -34,7 +35,6 @@ module asap1_tb();
         .cf(cf), 
 
         .ireg(ireg), 
-        .oreg(oreg), 
 
         .ctrl(ctrl)
     );
@@ -64,9 +64,11 @@ module asap1_tb();
     );
 
     register_module output_register (
+        .rst(rst), 
         .clk(clk_sim), 
         .ie(ctrl[OUI]), 
         .oe(1'b0), 
+        .data(out), 
         .bus(bus)
     );
 
@@ -75,14 +77,6 @@ module asap1_tb();
         .ie(ctrl[II]),
         .oe(1'b0), 
         .data(ireg),
-        .bus(bus)
-    );
-
-    register_module operand_register (
-        .clk(clk_sim), 
-        .ie(ctrl[OI]),
-        .oe(1'b0), 
-        .data(oreg),
         .bus(bus)
     );
 
@@ -98,10 +92,12 @@ module asap1_tb();
     );
 
     program_counter_module program_counter (
+        .rst(rst), 
         .clk(clk_sim), 
         .ie(ctrl[PCI]), 
         .oe(ctrl[PCO]), 
         .step(ctrl[PCS]), 
+        .data(pc), 
         .bus(bus)
     );
 

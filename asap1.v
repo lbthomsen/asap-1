@@ -23,11 +23,13 @@ module asap1 (
 
     wire clk; 
 
-    wire    [7:0]   bus;
-    wire    [7:0]   da;
-    wire    [7:0]   db;
-    wire    [7:0]   ireg;
-    wire    [7:0]   oreg;
+    wire    [7:0]                       bus;
+    wire    [7:0]                       pc;
+    wire    [7:0]                       da;
+    wire    [7:0]                       db;
+    wire    [7:0]                       ireg;
+    wire    [7:0]                       addr;
+    wire    [7:0]                       out;
     wire    [CONTROL_SIGNALS - 1:0]     ctrl;
 
     wire zf;
@@ -49,7 +51,6 @@ module asap1 (
         .cf(cf), 
 
         .ireg(ireg), 
-        .oreg(oreg), 
 
         .ctrl(ctrl)
     );
@@ -72,37 +73,33 @@ module asap1 (
 
     register_module memory_address_register (
         .clk(clk), 
-        .ie(ctrl[MAI]),
-        .oe(FALSE), 
+        .ie(ctrl[MAI]), 
+        .oe(1'b0), 
+        .data(addr), 
         .bus(bus)
     );
 
     register_module output_register (
+        .rst(rst), 
         .clk(clk), 
-        .ie(ctrl[OUI]),
-        .oe(FALSE),  
+        .ie(ctrl[OUI]), 
+        .oe(1'b0), 
+        .data(out), 
         .bus(bus)
     );
 
     register_module instruction_register (
         .clk(clk), 
         .ie(ctrl[II]),
-        .oe(FALSE),  
+        .oe(1'b0), 
         .data(ireg),
         .bus(bus)
     );
 
-    register_module operand_register (
-        .clk(clk), 
-        .ie(ctrl[OI]), 
-        .oe(FALSE), 
-        .data(oreg),
-        .bus(bus)
-    );
-
     alu_module alu (
+        .clk(clk), 
         .oe(ctrl[ALO]), 
-        .sub(als), 
+        .sub(ctrl[ALS]), 
         .a(da), 
         .b(db), 
         .cf(cf), 
@@ -111,10 +108,12 @@ module asap1 (
     );
 
     program_counter_module program_counter (
+        .rst(rst), 
         .clk(clk), 
         .ie(ctrl[PCI]), 
         .oe(ctrl[PCO]), 
         .step(ctrl[PCS]), 
+        .data(pc), 
         .bus(bus)
     );
 
@@ -122,6 +121,7 @@ module asap1 (
         .clk(clk),
         .ie(ctrl[MI]), 
         .oe(ctrl[MO]), 
+        .address(addr), 
         .bus(bus) 
     );
 
