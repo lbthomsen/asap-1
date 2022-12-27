@@ -1,5 +1,6 @@
 // ALU
 module alu_module (
+    input               rst, 
     input               clk, 
     input               oe, 
     input               sub, 

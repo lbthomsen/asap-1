@@ -30,16 +30,16 @@ module asap1_tb();
     end
 
     control_module control (
+        .rst(rst), 
         .clk(clk_sim), 
         .zf(zf), 
         .cf(cf), 
-
         .ireg(ireg), 
-
         .ctrl(ctrl)
     );
 
     register_module a_register (
+        .rst(rst), 
         .clk(clk_sim), 
         .ie(ctrl[AI]), 
         .oe(ctrl[AO]), 
@@ -48,6 +48,7 @@ module asap1_tb();
     );
 
     register_module b_register (
+        .rst(rst), 
         .clk(clk_sim), 
         .ie(ctrl[BI]), 
         .oe(ctrl[BO]), 
@@ -56,6 +57,7 @@ module asap1_tb();
     );
 
     register_module memory_address_register (
+        .rst(rst), 
         .clk(clk_sim), 
         .ie(ctrl[MAI]), 
         .oe(1'b0), 
@@ -73,6 +75,7 @@ module asap1_tb();
     );
 
     register_module instruction_register (
+        .rst(rst), 
         .clk(clk_sim), 
         .ie(ctrl[II]),
         .oe(1'b0), 
@@ -81,6 +84,7 @@ module asap1_tb();
     );
 
     alu_module alu (
+        .rst(rst), 
         .clk(clk_sim), 
         .oe(ctrl[ALO]), 
         .sub(ctrl[ALS]), 
@@ -102,6 +106,7 @@ module asap1_tb();
     );
 
     memory_module ram (
+        .rst(rst), 
         .clk(clk_sim),
         .ie(ctrl[MI]), 
         .oe(ctrl[MO]), 

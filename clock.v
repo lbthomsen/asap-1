@@ -3,6 +3,7 @@
 //
 
 module clock_module (
+    input       rst, 
     input       clk_i, 
     input       clk_start_stop_i, 
     input       clk_step_i, 

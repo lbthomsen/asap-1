@@ -1,15 +1,11 @@
 // CPU control logic
 module control_module (
-
+    input                                   rst, 
     input                                   clk, 
-
     input                                   zf,     // Zero flag
     input                                   cf,     // Carry flag
-
     input           [7:0]                   ireg,     // Instruction register direct data
-
     output  reg     [CONTROL_SIGNALS - 1:0] ctrl
-
 );
 
     `include "global.vh"

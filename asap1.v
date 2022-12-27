@@ -15,13 +15,15 @@ module asap1 (
     output      led4 = 0,
     output      led5 = 0,
     output      led6 = 0,
-    output      led7
+    output      led7, 
+    output       [7:0] l4
 
 );
 
     `include "global.vh"
 
     wire clk; 
+    wire rst;
 
     wire    [7:0]                       bus;
     wire    [7:0]                       pc;
@@ -35,9 +37,12 @@ module asap1 (
     wire zf;
     wire cf;
 
+    assign rst = rst_i;
     assign led7 = clk;
+    assign l4 = out;
     
     clock_module clock0 (
+        .rst(rst), 
         .clk_i(clk_i), 
         .clk_step_i(clk_step_i), 
         .clk_start_stop_i(clk_start_stop_i), 
@@ -46,16 +51,16 @@ module asap1 (
     );
 
     control_module control (
+        .rst(rst), 
         .clk(clk), 
         .zf(zf), 
         .cf(cf), 
-
         .ireg(ireg), 
-
         .ctrl(ctrl)
     );
 
     register_module a_register (
+        .rst(rst),
         .clk(clk), 
         .ie(ctrl[AI]), 
         .oe(ctrl[AO]), 
@@ -64,6 +69,7 @@ module asap1 (
     );
 
     register_module b_register (
+        .rst(rst),
         .clk(clk), 
         .ie(ctrl[BI]), 
         .oe(ctrl[BO]), 
@@ -72,6 +78,7 @@ module asap1 (
     );
 
     register_module memory_address_register (
+        .rst(rst),
         .clk(clk), 
         .ie(ctrl[MAI]), 
         .oe(1'b0), 
@@ -89,6 +96,7 @@ module asap1 (
     );
 
     register_module instruction_register (
+        .rst(rst),
         .clk(clk), 
         .ie(ctrl[II]),
         .oe(1'b0), 
@@ -97,6 +105,7 @@ module asap1 (
     );
 
     alu_module alu (
+        .rst(rst),
         .clk(clk), 
         .oe(ctrl[ALO]), 
         .sub(ctrl[ALS]), 
@@ -118,6 +127,7 @@ module asap1 (
     );
 
     memory_module ram (
+        .rst(rst),
         .clk(clk),
         .ie(ctrl[MI]), 
         .oe(ctrl[MO]), 
