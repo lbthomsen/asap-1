@@ -28,7 +28,7 @@ module register_counter_module (
                 end
             end
         end
-
+ 
     end
 
 endmodule

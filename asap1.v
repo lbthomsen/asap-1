@@ -2,22 +2,20 @@
 // Top Module for asap1
 //
 module asap1 (
-
     input       rst_i,
     input       clk_i,
     input       clk_start_stop_i,
     input       clk_step_i,
     input       clk_speed_i,
-    output      led0 = 0,
-    output      led1 = 0,
-    output      led2 = 0,
-    output      led3 = 0,
-    output      led4 = 0,
-    output      led5 = 0,
-    output      led6 = 0,
-    output      led7, 
-    output       [7:0] l4
-
+    output  reg [7:0]   l0 = 0, 
+    output  reg [7:0]   l1 = 0, 
+    output  reg [7:0]   l2 = 0, 
+    output  reg [7:0]   l3 = 0, 
+    output  reg [7:0]   l4 = 0, 
+    output  reg [7:0]   l6 = 0, 
+    output  reg [7:0]   l7 = 0, 
+    output  reg [7:0]   l8 = 0, 
+    output  reg [7:0]   l9 = 0
 );
 
     `include "global.vh"
@@ -38,8 +36,8 @@ module asap1 (
     wire cf;
 
     assign rst = rst_i;
-    assign led7 = clk;
-    assign l4 = out;
+    //assign led7 = clk;
+    //assign l4 = out;
     
     clock_module clock0 (
         .rst(rst), 
@@ -134,6 +132,14 @@ module asap1 (
         .address(addr), 
         .bus(bus) 
     );
+
+    always @ (clk) begin
+        l0[0] <= clk;
+        l1 <= pc;
+        l4 <= out;
+        l8 <= da;
+        l9 <= db;
+    end
 
 endmodule
 
