@@ -14,7 +14,6 @@ module memory_module (
     `include "global.vh"
 
     reg [7:0] data[0:255];
-    integer i;
 
     assign bus = (oe == 1'b1) ? data[address] : 'bzzzzzzzz;
 
