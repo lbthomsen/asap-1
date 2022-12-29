@@ -30,16 +30,21 @@ module clock_module (
     assign clk = running ? clk_o : clk_step_o;
 
     always @(posedge clk_i) begin
-        if (running) begin
-            counter++;
-            if (counter >= count_max[count_max_idx] - 1) 
-            begin
-                clk_o = ~clk_o;
+        if (rst) begin
+            if (running) begin
+                counter++;
+                if (counter >= count_max[count_max_idx] - 1) 
+                begin
+                    clk_o = ~clk_o;
+                    counter = 0;
+                end
+            end else  begin
+                clk_o = 1'b0;
                 counter = 0;
             end
-        end else  begin
+        end else begin
             clk_o = 1'b0;
-            counter = 0;
+            counter = 0;            
         end
     end
 

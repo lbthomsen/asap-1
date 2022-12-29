@@ -21,7 +21,7 @@ module asap1 (
     `include "global.vh"
 
     wire clk; 
-    wire rst;
+    wire  rst;
 
     wire    [7:0]                       bus;
     wire    [7:0]                       pc;
@@ -39,10 +39,15 @@ module asap1 (
     assign l0[0] = rst;
     assign l0[1] = clk;
     //assign l1 = bus;
-    assign l4 = out;
+    //assign l4 = out;
+
+    initial begin
+        l1 <= 0;
+        l2 <= 0;
+    end
      
     clock_module clock0 (
-        .rst(rst), 
+        //.rst(rst), 
         .clk_i(clk_i), 
         .clk_step_i(clk_step_i), 
         .clk_start_stop_i(clk_start_stop_i), 
@@ -50,8 +55,8 @@ module asap1 (
         .clk(clk)
     );
 
-    control_module control (
-        .rst(rst), 
+/*    control_module control (
+        //.rst(rst), 
         .clk(clk), 
         .zf(zf), 
         .cf(cf), 
@@ -60,7 +65,7 @@ module asap1 (
     );
 
     register_module a_register (
-        .rst(rst),
+        //.rst(rst),
         .clk(clk), 
         .ie(ctrl[AI]), 
         .oe(ctrl[AO]), 
@@ -69,7 +74,7 @@ module asap1 (
     );
 
     register_module b_register (
-        .rst(rst),
+        //.rst(rst),
         .clk(clk), 
         .ie(ctrl[BI]), 
         .oe(ctrl[BO]), 
@@ -133,15 +138,12 @@ module asap1 (
         .oe(ctrl[MO]), 
         .address(addr), 
         .bus(bus) 
-    );
+    ); */
 
-/*     always @ (clk) begin
+    always @ (clk) begin
         l0[0] <= clk;
-        l1 <= pc;
-        l4 <= out;
-        l8 <= da;
-        l9 <= db;
-    end */
+        l1 <= bus;
+    end
 
 endmodule
 
