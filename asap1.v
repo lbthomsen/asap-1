@@ -7,15 +7,15 @@ module asap1 (
     input       clk_start_stop_i,
     input       clk_step_i,
     input       clk_speed_i,
-    output  reg [7:0]   l0, 
-    output  reg [7:0]   l1, 
-    output  reg [7:0]   l2, 
-    output  reg [7:0]   l3, 
-    output  reg [7:0]   l4, 
-    output  reg [7:0]   l6, 
-    output  reg [7:0]   l7, 
-    output  reg [7:0]   l8, 
-    output  reg [7:0]   l9
+    output  reg [7:0]   l0 = 0, 
+    output  reg [7:0]   l1 = 0, 
+    output  reg [7:0]   l2 = 0, 
+    output  reg [7:0]   l3 = 0, 
+    output  reg [7:0]   l4 = 0, 
+    output  reg [7:0]   l6 = 0, 
+    output  reg [7:0]   l7 = 0, 
+    output  reg [7:0]   l8 = 0, 
+    output  reg [7:0]   l9 = 0
 );
 
     `include "global.vh"
@@ -28,6 +28,7 @@ module asap1 (
     wire    [7:0]                       da;
     wire    [7:0]                       db;
     wire    [7:0]                       ireg;
+    wire    [7:0]                       oreg;
     wire    [7:0]                       addr;
     wire    [7:0]                       out;
     wire    [CONTROL_SIGNALS - 1:0]     ctrl;
@@ -36,13 +37,13 @@ module asap1 (
     wire cf;
 
     assign rst = rst_i;
-    assign l0[0] = rst;
-    assign l0[1] = clk;
+    //assign l0[0] = rst;
+    //assign l0[1] = clk;
     //assign l1 = bus;
-    assign l4 = out;
+    //assign l4 = out;
      
     clock_module clock0 (
-        .rst(rst), 
+        .rst(rst_i), 
         .clk_i(clk_i), 
         .clk_step_i(clk_step_i), 
         .clk_start_stop_i(clk_start_stop_i), 
@@ -57,6 +58,16 @@ module asap1 (
         .cf(cf), 
         .ireg(ireg), 
         .ctrl(ctrl)
+    );
+
+    program_counter_module program_counter (
+        .rst(rst), 
+        .clk(clk), 
+        .ie(ctrl[PCI]), 
+        .oe(ctrl[PCO]), 
+        .step(ctrl[PCS]), 
+        .data(pc), 
+        .bus(bus)
     );
 
     register_module a_register (
@@ -104,6 +115,16 @@ module asap1 (
         .bus(bus)
     );
 
+    register_module operand_register (
+        .rst(rst),
+        .clk(clk), 
+        .ie(ctrl[OI]),
+        .oe(1'b0), 
+        .data(oreg),
+        .bus(bus)
+    );
+
+
     alu_module alu (
         .rst(rst),
         .clk(clk), 
@@ -116,16 +137,6 @@ module asap1 (
         .bus(bus)
     );
 
-    program_counter_module program_counter (
-        .rst(rst), 
-        .clk(clk), 
-        .ie(ctrl[PCI]), 
-        .oe(ctrl[PCO]), 
-        .step(ctrl[PCS]), 
-        .data(pc), 
-        .bus(bus)
-    );
-
     memory_module ram (
         .rst(rst),
         .clk(clk),
@@ -134,14 +145,20 @@ module asap1 (
         .address(addr), 
         .bus(bus) 
     );
+    
 
-/*     always @ (clk) begin
-        l0[0] <= clk;
-        l1 <= pc;
-        l4 <= out;
-        l8 <= da;
-        l9 <= db;
-    end */
+always @(clk) begin
+    l0[0] <= rst;
+    l0[1] <= clk;
+    l1 <= bus;
+    l2 <= pc;
+    l3 <= ireg;
+    l4 <= out;
+    l6 <= da;
+    l7 <= db;
+    l8 <= ctrl[16:8];
+    l9 <= ctrl[7:0];
+end
 
 endmodule
 

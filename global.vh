@@ -1,4 +1,6 @@
 
+// Convenient stuff
+
 parameter ZERO  =  1'b0;
 parameter FALSE =  1'b0;
 parameter ONE   =  1'b1;
@@ -34,20 +36,3 @@ parameter STA   =  4; // Store A to address
 parameter LDI   =  5; // Load value into A
 parameter JMP   =  6; // Jump to address
 parameter OUT   =  7; // A to out
-
-// Microcode
-//
-// Since regular verilog does not support parameter arrays, this is one long vector
-
-/* parameter [4 * 10 * (CONTROL_SIGNALS - 1):0] MC = {
-    // NOP
-    16'd0, 
-    16'd0, 
-    16'd0, 
-    16'd0, 
-    // LDA
-    16'($pow(2, MO) + $pow(2, MAI)), // Copy the value to the memory address register
-    16'($pow(2, MO) + $pow(2, AI)), 
-    16'd0, 
-    16'd0
-}; */

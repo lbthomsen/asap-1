@@ -24,7 +24,7 @@ module program_counter_module (
                  data = bus;
             end else begin
                 if (step == 1'b1) begin
-                    data = data + 1;
+                    data = data + 8'd1;
                 end
             end
         end

@@ -13,7 +13,7 @@ module alu_module (
 
     reg [15:0] data;
 
-    assign bus = (oe == 1'b1) ? data : 8'bzzzzzzzz;
+    assign bus = (oe == 1'b1) ? data[7:0] : 8'bzzzzzzzz;
 
     always @ (a, b) begin
       if (sub == 1'b0) begin
