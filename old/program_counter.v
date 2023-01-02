@@ -18,13 +18,13 @@ module program_counter_module (
     always @ (negedge clk) begin
 
         if (rst == 1'b1) begin
-            data <= 8'd0;
+            data = 8'd0;
         end else begin
             if (ie == 1'b1) begin
-                 data <= bus;
+                 data = bus;
             end else begin
                 if (step == 1'b1) begin
-                    data <= data + 1;
+                    data = data + 8'd1;
                 end
             end
         end

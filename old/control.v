@@ -66,16 +66,16 @@ module control_module (
                 ctrl = $pow(2, MO) + $pow(2, II);
             end
             4'd2: begin
-                ctrl = $pow(2, PCO) + $pow(2, MAI) + $pow(2, PCS);
+                ctrl = $pow(2, PCO) + $pow(2, MAI);
             end
-            /* 4'd3: begin
-                ctrl = $pow(2, MO) + $pow(2, OI);
-            end */
-            5'd3, 
+            4'd3: begin
+                ctrl = $pow(2, MO) + $pow(2, OI) + $pow(2, PCS);
+            end  
             4'd4, 
-            4'd5, 
-            4'd6: begin
-                ctrl = MICROCODE[ireg][step - 3];
+            4'd5,
+            4'd6,  
+            4'd7: begin
+                ctrl = MICROCODE[ireg][step - 4];
                 if (ctrl == 16'd0) step = 4'b1111; // Will roll over to zero
             end
 /*             default: begin
