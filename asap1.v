@@ -28,22 +28,33 @@ module asap1 (
     wire    [7:0]                       da;
     wire    [7:0]                       db;
     wire    [7:0]                       ireg;
-    wire    [7:0]                       oreg;
     wire    [7:0]                       addr;
     wire    [7:0]                       out;
+    wire    [7:0]                       mem;
     wire    [CONTROL_SIGNALS - 1:0]     ctrl;
 
     wire zf;
     wire cf;
 
     assign rst = rst_i;
-    //assign l0[0] = rst;
-    //assign l0[1] = clk;
-    //assign l1 = bus;
-    //assign l4 = out;
+
+    always @(clk) begin
+        l0[0] <= rst;
+        l0[1] <= clk;
+        l0[6] <= zf;
+        l0[7] <= cf;
+        l1 <= pc;
+        l2 <= ireg;
+        l3 <= addr;
+        l4 <= out;
+        l6 <= da;
+        l7 <= db;
+        l8 <= ctrl[16:8];
+        l9 <= ctrl[7:0];
+    end
      
     clock_module clock0 (
-        .rst(rst_i), 
+        .rst(rst), 
         .clk_i(clk_i), 
         .clk_step_i(clk_step_i), 
         .clk_start_stop_i(clk_start_stop_i), 
@@ -115,16 +126,6 @@ module asap1 (
         .bus(bus)
     );
 
-    register_module operand_register (
-        .rst(rst),
-        .clk(clk), 
-        .ie(ctrl[OI]),
-        .oe(1'b0), 
-        .data(oreg),
-        .bus(bus)
-    );
-
-
     alu_module alu (
         .rst(rst),
         .clk(clk), 
@@ -142,23 +143,10 @@ module asap1 (
         .clk(clk),
         .ie(ctrl[MI]), 
         .oe(ctrl[MO]), 
-        .address(addr), 
+        .addr(addr), 
+        .data(mem), 
         .bus(bus) 
     );
-    
-
-always @(clk) begin
-    l0[0] <= rst;
-    l0[1] <= clk;
-    l1 <= bus;
-    l2 <= pc;
-    l3 <= ireg;
-    l4 <= out;
-    l6 <= da;
-    l7 <= db;
-    l8 <= ctrl[16:8];
-    l9 <= ctrl[7:0];
-end
 
 endmodule
 
