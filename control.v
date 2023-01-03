@@ -55,6 +55,16 @@ module control_module (
         MICROCODE[OUT][0] <= $pow(2, AO) + $pow(2, OUI);
         MICROCODE[OUT][1] <= 16'd0;
 
+        // CMP
+        MICROCODE[CMP][0] <= $pow(2, MO) + $pow(2, MAI); // Memory out (operand is in memory address register) memory address in
+        MICROCODE[CMP][1] <= $pow(2, MO) + $pow(2, BI) + $pow(2, ALS);  // Memory out B in and ALU Subtract flag
+        MICROCODE[CMP][2] <= 16'd0;
+
+        // JZ
+        MICROCODE[JZ][0] <= $pow(2, CZ);
+        MICROCODE[JZ][1] <= $pow(2, MO) + $pow(2, PCI);
+        MICROCODE[JZ][2] <= 16'd0;   
+
     end
 
     always @ (posedge clk) begin
@@ -73,7 +83,11 @@ module control_module (
             4'd5,  
             4'd6: begin
                 ctrl = MICROCODE[ireg][step - 3];
-                if (ctrl == 16'd0) step = 4'b1111; // Will roll over to zero
+                if ( ctrl[CZ] == TRUE ) begin
+                    if (zf == ZERO) step = 5'b1111; // Respond to zero flag check
+                end else begin
+                    if (ctrl == 16'd0) step = 4'b1111; // Will roll over to zero
+                end
             end
         endcase
         step = step + 1;

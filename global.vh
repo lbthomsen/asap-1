@@ -21,10 +21,10 @@ parameter MAI   =  7; // Memory address register in
 parameter MI    =  8; // Memory in
 parameter MO    =  9; // Memory out
 parameter II    = 10; // Instruction register in
-parameter OI    = 11; // Operand register in
-parameter ALO   = 12; // ALU out
-parameter ALS   = 13; // ALU subtract
-parameter OUI   = 14; // Out register in
+parameter ALO   = 11; // ALU out
+parameter ALS   = 12; // ALU subtract
+parameter OUI   = 13; // Out register in
+parameter CZ    = 14; // Check Zero Flag
 
 // Instructions
 
@@ -36,3 +36,5 @@ parameter STA   =  4; // Store A to address
 parameter LDI   =  5; // Load value into A
 parameter JMP   =  6; // Jump to address
 parameter OUT   =  7; // A to out
+parameter CMP   =  8; // Compare A with value at address
+parameter JZ    =  9; // Jump if Zero flag (ZF) is set
