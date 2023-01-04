@@ -1,5 +1,5 @@
 //
-// A single 8 bit register
+// A single 8 bit register - wrapper around register_counter_module with step pulled low
 //
 module register_module (
     input               rst, 
