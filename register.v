@@ -1,4 +1,6 @@
+//
 // A single 8 bit register
+//
 module register_module (
     input               rst, 
     input               clk, 
@@ -27,3 +29,4 @@ module register_module (
     end
 
 endmodule
+// vim: ts=4 et nowrap autoindent
