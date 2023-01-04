@@ -61,8 +61,8 @@ module control_module (
         MICROCODE[CMP][2] <= 16'd0;
 
         // JZ
-        MICROCODE[JZ][0] <= $pow(2, CZ);
-        MICROCODE[JZ][1] <= $pow(2, MO) + $pow(2, PCI);
+        MICROCODE[JZ][0] <= 2 ** CZ;
+        MICROCODE[JZ][1] <= 2 ** MO + 2 ** PCI;
         MICROCODE[JZ][2] <= 16'd0;   
 
     end
@@ -83,8 +83,8 @@ module control_module (
             4'd5,  
             4'd6: begin
                 ctrl = MICROCODE[ireg][step - 3];
-                if ( ctrl[CZ] == TRUE ) begin
-                    if (zf == ZERO) step = 5'b1111; // Respond to zero flag check
+                if ( ctrl == 2 ** CZ ) begin
+                    if (zf == ZERO) step = 4'b1111; // Respond to zero flag check
                 end else begin
                     if (ctrl == 16'd0) step = 4'b1111; // Will roll over to zero
                 end

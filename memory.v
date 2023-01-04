@@ -16,7 +16,7 @@ module memory_module (
     assign bus = (oe == 1'b1) ? data : 8'bzzzzzzzz;
 
     initial begin 
-        $readmemh("counter1.bin", mem);
+        $readmemh("counter3.bin", mem);
     end
 
     always @* begin
