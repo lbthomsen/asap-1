@@ -10,23 +10,17 @@ module register_module (
     inout       [7:0]   bus
 );
 
-    assign bus = (oe == 1'b1) ? data : 8'bzzzzzzzz;
+    `include "global.vh"
 
-    initial begin
-        data = 8'd0;
-    end
-
-    always @ (negedge clk) begin
-
-        if (rst == 1'b1) begin
-            data = 8'd0;
-        end else begin
-            if (ie == 1'b1) begin
-                 data = bus;
-            end
-        end
- 
-    end
+    register_counter_module rcm (
+        .rst(rst), 
+        .clk(clk), 
+        .ie(ie), 
+        .oe(oe), 
+        .step(FALSE), 
+        .data(data), 
+        .bus(bus)
+    );
 
 endmodule
 // vim: ts=4 et nowrap autoindent

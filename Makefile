@@ -1,7 +1,7 @@
 TARGET=asap1
 TOP=asap1
 
-OBJS+=asap1.v clock.v control.v program_counter.v memory.v register.v alu.v
+OBJS+=asap1.v clock.v control.v register_counter.v memory.v register.v program_counter.v alu.v
 
 # control.v memory.v alu.v register.v program_counter.v
 
