@@ -70,13 +70,13 @@ module control_module (
     always @ (posedge clk) begin
         case (step)  
             4'd0: begin
-                ctrl = $pow(2, PCO) + $pow(2, MAI) + $pow(2, PCS);
+                ctrl = 2 ** PCO + 2 ** MAI + 2 ** PCS;
             end
             4'd1: begin
-                ctrl = $pow(2, MO) + $pow(2, II);
+                ctrl = 2 ** MO + 2 ** II;
             end
             4'd2: begin
-                ctrl = $pow(2, PCO) + $pow(2, MAI) + $pow(2, PCS);
+                ctrl = 2 ** PCO + 2 ** MAI + 2 ** PCS;
             end
             4'd3, 
             4'd4,

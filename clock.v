@@ -24,7 +24,7 @@ module clock_module (
         count_max[0] = 32'd12500000;
         count_max[1] = 32'd1250000;
         count_max[2] = 32'd125000;
-        count_max[3] = 32'd12500;
+        count_max[3] = 32'd1250;
     end;
 
     assign clk = running ? clk_o : clk_step_o;
