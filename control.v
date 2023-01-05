@@ -57,11 +57,12 @@ module control_module (
 
         // CMP
         MICROCODE[CMP][0] <= 2**MO + 2**MAI; // Memory out (operand is in memory address register) memory address in
-        MICROCODE[CMP][1] <= 2**MO + 2**BI + 2**ALS;  // Memory out B in and ALU Subtract flag
-        MICROCODE[CMP][2] <= 16'd0;
+        MICROCODE[CMP][1] <= 2**MO + 2**BI + 2**ALS + 2**ALE;  // Memory out B in and ALU Subtract flag and ALU Latch Enable
+        MICROCODE[CMP][2] <= 2**ALS + 2**ALE;  
+        MICROCODE[CMP][3] <= 16'd0;
 
         // JZ
-        MICROCODE[JZ][0] <= 2**CZ;
+        MICROCODE[JZ][0] <= 2**JE;
         MICROCODE[JZ][1] <= 2**MO + 2**PCI;
         MICROCODE[JZ][2] <= 16'd0;   
 
@@ -83,7 +84,7 @@ module control_module (
             4'd5,  
             4'd6: begin
                 ctrl = MICROCODE[ireg][step - 3];
-                if ( ctrl == 2**CZ ) begin
+                if ( ctrl == 2**JE ) begin
                     if (zf != TRUE) step = 4'b1111; // Respond to zero flag check
                 end else begin
                     if (ctrl == 16'd0) step = 4'b1111; // Will roll over to zero

@@ -16,15 +16,15 @@ parameter PCS   =  2; // Program counter step
 parameter AI    =  3; // A register in
 parameter AO    =  4; // A register out
 parameter BI    =  5; // B register in
-parameter BO    =  6; // B register out
-parameter MAI   =  7; // Memory address register in
-parameter MI    =  8; // Memory in
-parameter MO    =  9; // Memory out
-parameter II    = 10; // Instruction register in
+parameter MAI   =  6; // Memory address register in
+parameter MI    =  7; // Memory in
+parameter MO    =  8; // Memory out
+parameter II    =  9; // Instruction register in
+parameter ALE   = 10; // ALU Latch Enable 
 parameter ALO   = 11; // ALU out
 parameter ALS   = 12; // ALU subtract
 parameter OUI   = 13; // Out register in
-parameter CZ    = 14; // Check Zero Flag
+parameter JE    = 14; // Jump Enable
 
 // Instructions
 

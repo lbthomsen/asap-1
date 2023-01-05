@@ -94,7 +94,7 @@ module asap1 (
         .rst(rst),
         .clk(clk), 
         .ie(ctrl[BI]), 
-        .oe(ctrl[BO]), 
+        .oe(FALSE), 
         .data(db), 
         .bus(bus)
     );
@@ -129,6 +129,7 @@ module asap1 (
     alu_module alu (
         .rst(rst),
         .clk(clk), 
+        .ie(ctrl[ALE]), 
         .oe(ctrl[ALO]), 
         .sub(ctrl[ALS]), 
         .a(da), 
