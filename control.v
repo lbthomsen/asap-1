@@ -22,47 +22,47 @@ module control_module (
         MICROCODE[NOP][0] <= 16'd0; // Do nothing - the remaining steps doesn't matter
 
         // LDA
-        MICROCODE[LDA][0] <= $pow(2, MO) + $pow(2, MAI);
-        MICROCODE[LDA][1] <= $pow(2, MO) + $pow(2, AI);
+        MICROCODE[LDA][0] <= 2**MO + 2**MAI;
+        MICROCODE[LDA][1] <= 2**MO + 2**AI;
         MICROCODE[LDA][2] <= 16'd0;
 
         // ADD
-        MICROCODE[ADD][0] <= $pow(2, MO) + $pow(2, MAI); // Memory out (operand is in memory address register) memory address in
-        MICROCODE[ADD][1] <= $pow(2, MO) + $pow(2, BI);  // Memory out B in
-        MICROCODE[ADD][2] <= $pow(2, ALO) + $pow(2, AI); // ALU out A in
+        MICROCODE[ADD][0] <= 2**MO + 2**MAI; // Memory out (operand is in memory address register) memory address in
+        MICROCODE[ADD][1] <= 2**MO + 2**BI;  // Memory out B in
+        MICROCODE[ADD][2] <= 2**ALO + 2**AI; // ALU out A in
         MICROCODE[ADD][3] <= 16'd0;
 
         // SUB
-        MICROCODE[SUB][0] <= $pow(2, MO) + $pow(2, MAI); // Memory out (operand is in memory address register) memory address in
-        MICROCODE[SUB][1] <= $pow(2, MO) + $pow(2, BI) + $pow(2, ALS);  // Memory out B in and ALU Subtract flag
-        MICROCODE[SUB][2] <= $pow(2, ALO) + $pow(2, AI) + $pow(2, ALS); // ALU out A in
+        MICROCODE[SUB][0] <= 2**MO + 2**MAI; // Memory out (operand is in memory address register) memory address in
+        MICROCODE[SUB][1] <= 2**MO + 2**BI + 2**ALS;  // Memory out B in and ALU Subtract flag
+        MICROCODE[SUB][2] <= 2**ALO + 2**AI + 2**ALS; // ALU out A in
         MICROCODE[SUB][3] <= 16'd0;
 
         // STA
-        MICROCODE[STA][0] <= $pow(2, MO) + $pow(2, MAI);
-        MICROCODE[STA][1] <= $pow(2, AO) + $pow(2, MI);
+        MICROCODE[STA][0] <= 2**MO + 2**MAI;
+        MICROCODE[STA][1] <= 2**AO + 2**MI;
         MICROCODE[STA][2] <= 16'd0;
 
         // LDI
-        MICROCODE[LDI][0] <= $pow(2, MO) + $pow(2, AI);
+        MICROCODE[LDI][0] <= 2**MO + 2**AI; // At this point, the MAR already contains the operand address
         MICROCODE[LDI][1] <= 16'd0;
 
         // JMP
-        MICROCODE[JMP][0] <= $pow(2, MO) + $pow(2, PCI);
+        MICROCODE[JMP][0] <= 2**MO + 2**PCI;
         MICROCODE[JMP][1] <= 16'd0;
 
         // OUT
-        MICROCODE[OUT][0] <= $pow(2, AO) + $pow(2, OUI);
+        MICROCODE[OUT][0] <= 2**AO + 2**OUI;
         MICROCODE[OUT][1] <= 16'd0;
 
         // CMP
-        MICROCODE[CMP][0] <= $pow(2, MO) + $pow(2, MAI); // Memory out (operand is in memory address register) memory address in
-        MICROCODE[CMP][1] <= $pow(2, MO) + $pow(2, BI) + $pow(2, ALS);  // Memory out B in and ALU Subtract flag
+        MICROCODE[CMP][0] <= 2**MO + 2**MAI; // Memory out (operand is in memory address register) memory address in
+        MICROCODE[CMP][1] <= 2**MO + 2**BI + 2**ALS;  // Memory out B in and ALU Subtract flag
         MICROCODE[CMP][2] <= 16'd0;
 
         // JZ
-        MICROCODE[JZ][0] <= 2 ** CZ;
-        MICROCODE[JZ][1] <= 2 ** MO + 2 ** PCI;
+        MICROCODE[JZ][0] <= 2**CZ;
+        MICROCODE[JZ][1] <= 2**MO + 2**PCI;
         MICROCODE[JZ][2] <= 16'd0;   
 
     end
@@ -70,21 +70,21 @@ module control_module (
     always @ (posedge clk) begin
         case (step)  
             4'd0: begin
-                ctrl = 2 ** PCO + 2 ** MAI + 2 ** PCS;
+                ctrl = 2**PCO + 2**MAI + 2**PCS;
             end
             4'd1: begin
-                ctrl = 2 ** MO + 2 ** II;
+                ctrl = 2**MO + 2**II;
             end
             4'd2: begin
-                ctrl = 2 ** PCO + 2 ** MAI + 2 ** PCS;
+                ctrl = 2**PCO + 2**MAI + 2**PCS;
             end
             4'd3, 
             4'd4,
             4'd5,  
             4'd6: begin
                 ctrl = MICROCODE[ireg][step - 3];
-                if ( ctrl == 2 ** CZ ) begin
-                    if (zf == ZERO) step = 4'b1111; // Respond to zero flag check
+                if ( ctrl == 2**CZ ) begin
+                    if (zf != TRUE) step = 4'b1111; // Respond to zero flag check
                 end else begin
                     if (ctrl == 16'd0) step = 4'b1111; // Will roll over to zero
                 end
