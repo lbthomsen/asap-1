@@ -3,7 +3,7 @@
 00 00 // 02 03 - Used for storage
 05 01 // 04 05 - LDI 01 - Load a 1 into A
 04 02 // 06 07 - STA 02 - Store A into address 0x02
-05 0f // 08 09 - LDI 10 - Load a 0x0f into A
+05 15 // 08 09 - LDI 15 - Load a 0x0f into A
 04 03 // 0a 0b - STA 03 - Store A into address 0x03
 05 00 // 0c 0d - LDI 00 - Load zero into A
 07 00 // 0e 0f - OUT    - Copy A to OUT

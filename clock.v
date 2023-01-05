@@ -14,7 +14,7 @@ module clock_module (
     reg        clk_o;
     reg        clk_step_o;
 
-    reg         running = 1'b0;
+    reg         running = 1'b1;
     reg [31:0]  counter = 0;
     reg [31:0]  count_max[0:3];
 
